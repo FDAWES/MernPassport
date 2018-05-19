@@ -4,6 +4,15 @@ const router = require("express").Router();
 
 const db = require("../models");
 
+router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+ 
+router.get('/google/callback', 
+    passport.authenticate('google', { 
+      successRedirect: "/", 
+      failureRedirect: '/login' 
+    })
+);
+
 router.post("/signup", (req, res) => {
   db.User.create(req.body)
     .then((results) =>{

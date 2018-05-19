@@ -9,6 +9,9 @@ const styles = {
     borderStyle: "solid",
     borderWidth: "1px",
     textAlign: "center"
+  },
+  center: {
+    textAlign: "center"
   }
 }
 
@@ -16,8 +19,11 @@ class SignupForm extends Component {
   state = {
     redirectTo:"",
     email: "",
-    password: ""
+    password: "",
+    confirmPassword: ""
   }
+
+  textInput = React.createRef();
 
   handleInputChange = event => {
     const {name, value} = event.target;
@@ -27,9 +33,14 @@ class SignupForm extends Component {
   handleSignUp = event => {
     event.preventDefault();
     API.signUp({ email: this.state.email, password: this.state.password})
-    .then(() => this.setState({
-      redirectTo: "/login"
-    }));
+      .then(() => this.setState({
+        redirectTo: "/login"
+      }))
+      .catch(err => console.log("Error exectuing handleSignup: ", err));
+  }
+
+  componentDidMount(){
+    this.textInput.current.focus();
   }
 
   render(){
@@ -40,30 +51,41 @@ class SignupForm extends Component {
       <Wrapper>
         <Row>
           <Col>
+            <h6 style={styles.center}><i>(SignupForm Component)</i></h6>
             <h1 style={styles.header}>Signup Form</h1>
           </Col>
         </Row>
-        <Row>
-          <Col span={2} offset={3}>
-            <label>Email: </label>
-          </Col>
-          <Col span={3}>
-            <input name="email" type="text" value={this.state.email} onChange={this.handleInputChange} />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={2} offset={3}>
-            <label>Password: </label>
-          </Col>
-          <Col span={4}>
-            <input name="password" type="password" value={this.state.password} onChange={this.handleInputChange} />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={2} offset={3}>
-            <button onClick={this.handleSignUp}>Submit</button>
-          </Col>
-        </Row>
+        <form>
+          <Row>
+            <Col span={2} offset={3}>
+              <label>Email: </label>
+            </Col>
+            <Col span={3}>
+              <input ref={this.textInput} name="email" type="text" value={this.state.email} onChange={this.handleInputChange} />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={2} offset={3}>
+              <label>Password: </label>
+            </Col>
+            <Col span={4}>
+              <input name="password" type="password" value={this.state.password} onChange={this.handleInputChange} />
+            </Col>
+          </Row>
+          {/* <Row>
+            <Col span={2} offset={3}>
+              <label>Confirm Password: </label>
+            </Col>
+            <Col span={4}>
+              <input name="confirmPasswrd" type="password" value={this.state.password} onChange={this.handleInputChange} />
+            </Col>
+          </Row> */}
+          <Row>
+            <Col span={2} offset={3}>
+              <button onClick={this.handleSignUp}>Submit</button>
+            </Col>
+          </Row>
+        </form>
       </Wrapper>
     )
   }

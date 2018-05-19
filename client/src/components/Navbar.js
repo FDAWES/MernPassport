@@ -12,7 +12,7 @@ const Navbar = ({loggedIn, logout}) => {
         <ul className="navbar-nav">
           {loggedIn ? 
             <li className="nav-item">
-              <a className="nav-item nav-link" href="#" onClick={logout}>Logout</a>
+              <Link className="nav-item nav-link" to="#" onClick={logout}>Logout</Link>
             </li>
             : 
             [
@@ -25,6 +25,7 @@ const Navbar = ({loggedIn, logout}) => {
             ]            
           }
         </ul>
+        <h6><i>(Navbar Component)</i></h6>
       </div>
     </nav>
   );

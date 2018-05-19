@@ -4,7 +4,7 @@ export default {
   getCurrentUser: function(){
     return axios.get("/auth/getUser");
   },
-  
+
   signUp: (newUser) => {
     return axios.post("/auth/signup", newUser)
   },
@@ -15,5 +15,9 @@ export default {
 
   logout: () => {
     return axios.get("/auth/logout");
+  },
+
+  googleSignup: () => {
+    return axios.get("/auth/google");
   }
 }

@@ -16,17 +16,30 @@ var UserSchema = new Schema({
   // The ref property links these ObjectIds to the Note model
   // This allows us to populate the User with any associated Notes
   password: {
-      // Store ObjectIds in the array
-      type: String
-    }
+    // Store ObjectIds in the array
+    type: String
+  },
+
+  googleId: {
+    type: String
+  },
+
+  displayName: String,
+  photoUrl: String
 });
 
 UserSchema.pre("save", function(next) {
   this.hashPassword();
+
+  if(this.email){
+    this.displayName = this.email;
+  }
+
   next();
 });
 
 UserSchema.methods.hashPassword = function(){
+  if(!this.password) return;
   const hash = bcrypt.hashSync(this.password, 10);
   this.password = hash;
 }
